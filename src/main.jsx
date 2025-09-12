@@ -5,14 +5,27 @@ import IngredientsList from "./IngredientsList"
 export default function Main() {
   const [ingredients, setIngredients] = React.useState([])
 
-  const [recipeShown, setRecipeShown] = React.useState(false)
+  const [recipe, setRecipe] = React.useState("")
 
-  function toggleRecipeShown() {
-    setRecipeShown(prevShown => !prevShown)
-  }
+  async function fetchRecipe() {
+  const res = await fetch("/.netlify/functions/recipe", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ingredients })
+  })
+  const data = await res.json()
+  setRecipe(data.recipe)   // store AI response in state
+  //setRecipeShown(true)     // show the recipe section
+}
+
+
+  // const [recipeShown, setRecipeShown] = React.useState(false)
+
+  // function toggleRecipeShown() {
+  //   setRecipeShown(prevShown => !prevShown)
+  // }
 
   
-
   function handleSubmit(formData) {
     const newIngredient = formData.get("ingredient")
     setIngredients((prevIngredients) => [...prevIngredients, newIngredient])
@@ -29,8 +42,8 @@ export default function Main() {
         />
         <button>Add ingredient</button>
       </form>
-      {ingredients.length > 0 && <IngredientsList ingredients={ingredients} toggle={toggleRecipeShown}/>}
-      {recipeShown && <ClaudeRecipe />}
+      {ingredients.length > 0 && <IngredientsList ingredients={ingredients} getRecipe={fetchRecipe}/>}
+      {recipe && <ClaudeRecipe recipe={recipe}/>}
     </main>
   )
 }
