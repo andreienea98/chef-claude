@@ -6,6 +6,13 @@ export default function Main() {
   const [ingredients, setIngredients] = React.useState([])
   const [recipe, setRecipe] = React.useState("")
   const [loading, setLoading] = React.useState(false)
+  const recipeRef = React.useRef(null)
+
+  React.useEffect(() => {
+    if (recipe !== "" && recipeRef.current !== null) {
+      recipeRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [recipe])
 
   async function fetchRecipe() {
     setLoading(true)
@@ -37,7 +44,7 @@ export default function Main() {
         <button>Add ingredient</button>
       </form>
       {ingredients.length > 0 && (
-        <IngredientsList ingredients={ingredients} getRecipe={fetchRecipe} />
+        <IngredientsList ingredients={ingredients} getRecipe={fetchRecipe} ref={recipeRef}/>
       )}
       {loading && <p>Chef Claude is thinking... 🧑‍🍳</p>}
       {!loading && recipe && <ClaudeRecipe recipe={recipe} />}
