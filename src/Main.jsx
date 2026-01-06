@@ -8,6 +8,8 @@ export default function Main() {
   const [loading, setLoading] = React.useState(false)
   const recipeRef = React.useRef(null)
 
+  
+
   React.useEffect(() => {
     if (recipe !== "" && recipeRef.current !== null) {
       recipeRef.current.scrollIntoView({ behavior: "smooth" })
@@ -24,6 +26,9 @@ export default function Main() {
     const data = await res.json()
     setRecipe(data.recipe) // store AI response in state
     setLoading(false)
+    console.log(JSON.stringify(data.recipe))
+
+    
   }
 
   function handleSubmit(formData) {
