@@ -17,7 +17,7 @@ Format your response in markdown to make it easier to render to a web page.
 `
 
     const response = await hf.chatCompletion({
-      model: "mistralai/Mistral-7B-Instruct-v0.2",
+      model: "meta-llama/Meta-Llama-3-8B-Instruct",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         {
